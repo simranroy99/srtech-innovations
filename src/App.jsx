@@ -23,15 +23,6 @@ export default function App() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // ✅ Your Google Form link
-  const GOOGLE_FORM_LINK =
-    "https://docs.google.com/forms/d/e/1FAIpQLSeJG9j4v5-Zi0gUzYtnw_gJirVl7f8cjjaFpZD5ng0cvBAmwQ/viewform";
-
-  const submitToGoogleForm = () => {
-    // Customer will NOT see Google Sheet. Only form opens.
-    window.open(GOOGLE_FORM_LINK, "_blank");
-  };
-
   return (
     <div style={styles.page}>
       {/* NAV */}
@@ -104,12 +95,6 @@ export default function App() {
             📞 8287156332 <br />
             📧 simranroy370@gmail.com
           </div>
-          <button
-            style={styles.heroCardBtn}
-            onClick={() => scrollToId("applyForm")}
-          >
-            Apply Now
-          </button>
         </div>
       </div>
 
@@ -143,112 +128,145 @@ export default function App() {
       <div id="applyForm" style={styles.section}>
         <h2 style={styles.h2}>Apply Form 📝</h2>
         <p style={styles.sub}>
-          Fill details here. On submit, Google Form will open for final
-          submission.
+          Fill this form and submit. Your details will be sent directly to SRTech
+          Innovations email.
         </p>
 
         <div style={styles.formCard}>
-          <div style={styles.formGrid}>
+          {/* ✅ FORM SUBMIT TO EMAIL (FormSubmit) */}
+          <form
+            action="https://formsubmit.co/simranroy370@gmail.com"
+            method="POST"
+            style={{ maxWidth: "760px" }}
+          >
+            {/* IMPORTANT hidden inputs */}
+            <input type="hidden" name="_subject" value="New SRTech Application" />
+            <input type="hidden" name="_captcha" value="false" />
+
+            {/* After submit, redirect back to your website */}
             <input
-              style={styles.input}
-              placeholder="Your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              type="hidden"
+              name="_next"
+              value="https://simranroy99.github.io/srtech-innovations/"
             />
 
-            <input
-              style={styles.input}
-              placeholder="WhatsApp Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
+            {/* Form fields */}
+            <div style={styles.formGrid}>
+              <input
+                style={styles.input}
+                placeholder="Your Name"
+                name="name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
 
-            <select
-              style={styles.input}
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option>Website</option>
-              <option>App Development</option>
-              <option>Tech Tool</option>
-            </select>
+              <input
+                style={styles.input}
+                placeholder="WhatsApp Number"
+                name="whatsapp"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
 
-            {category === "Website" && (
-              <>
-                <select
-                  style={styles.input}
-                  value={siteType}
-                  onChange={(e) => setSiteType(e.target.value)}
-                >
-                  <option>Business Website</option>
-                  <option>Portfolio Website</option>
-                  <option>E-Commerce Website</option>
-                  <option>Landing Page</option>
-                </select>
+              <select
+                style={styles.input}
+                name="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option>Website</option>
+                <option>App Development</option>
+                <option>Tech Tool</option>
+              </select>
 
-                <select
-                  style={styles.input}
-                  value={pages}
-                  onChange={(e) => setPages(e.target.value)}
-                >
-                  <option>1-3 Pages</option>
-                  <option>3-5 Pages</option>
-                  <option>5-10 Pages</option>
-                </select>
+              {category === "Website" && (
+                <>
+                  <select
+                    style={styles.input}
+                    name="website_type"
+                    value={siteType}
+                    onChange={(e) => setSiteType(e.target.value)}
+                  >
+                    <option>Business Website</option>
+                    <option>Portfolio Website</option>
+                    <option>E-Commerce Website</option>
+                    <option>Landing Page</option>
+                  </select>
 
-                <select
-                  style={styles.input}
-                  value={needDomain}
-                  onChange={(e) => setNeedDomain(e.target.value)}
-                >
-                  <option value="No">Need Domain? (No)</option>
-                  <option value="Yes">Need Domain? (Yes)</option>
-                </select>
+                  <select
+                    style={styles.input}
+                    name="pages"
+                    value={pages}
+                    onChange={(e) => setPages(e.target.value)}
+                  >
+                    <option>1-3 Pages</option>
+                    <option>3-5 Pages</option>
+                    <option>5-10 Pages</option>
+                  </select>
 
-                <select
-                  style={styles.input}
-                  value={needHosting}
-                  onChange={(e) => setNeedHosting(e.target.value)}
-                >
-                  <option value="No">Need Hosting? (No)</option>
-                  <option value="Yes">Need Hosting? (Yes)</option>
-                </select>
-              </>
-            )}
+                  <select
+                    style={styles.input}
+                    name="need_domain"
+                    value={needDomain}
+                    onChange={(e) => setNeedDomain(e.target.value)}
+                  >
+                    <option value="No">Need Domain? (No)</option>
+                    <option value="Yes">Need Domain? (Yes)</option>
+                  </select>
 
-            <textarea
-              style={{ ...styles.input, minHeight: "120px" }}
-              placeholder="Describe your project requirements..."
-              value={details}
-              onChange={(e) => setDetails(e.target.value)}
-            />
-          </div>
+                  <select
+                    style={styles.input}
+                    name="need_hosting"
+                    value={needHosting}
+                    onChange={(e) => setNeedHosting(e.target.value)}
+                  >
+                    <option value="No">Need Hosting? (No)</option>
+                    <option value="Yes">Need Hosting? (Yes)</option>
+                  </select>
+                </>
+              )}
 
-          {/* Fee */}
-          <div style={styles.feeBox}>
-            <div style={styles.feeTitle}>Total Fees</div>
-            <div style={styles.feePrice}>₹{fee}</div>
-            <div style={styles.feeSub}>
-              Website ₹2000 | App ₹3000 | Tool ₹2500
+              <textarea
+                style={{ ...styles.input, minHeight: "120px" }}
+                placeholder="Describe your project requirements..."
+                name="requirements"
+                required
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+              />
+
+              {/* Fee send to email */}
+              <input type="hidden" name="fees" value={`₹${fee}`} />
             </div>
-          </div>
 
-          {/* QR */}
-          <div style={styles.qrBox}>
-            <div style={styles.qrTitle}>Pay Using QR</div>
-            <img
-              src="/srtech-innovations/qr.png"
-              alt="Payment QR"
-              style={styles.qrImg}
-            />
-            <div style={styles.qrSub}>
-              After payment send screenshot on WhatsApp: <b>8287156332</b>
+            {/* Fee display */}
+            <div style={styles.feeBox}>
+              <div style={styles.feeTitle}>Total Fees</div>
+              <div style={styles.feePrice}>₹{fee}</div>
+              <div style={styles.feeSub}>
+                Website ₹2000 | App ₹3000 | Tool ₹2500
+              </div>
             </div>
-          </div>
 
-          <button style={styles.submitBtn} onClick={submitToGoogleForm}>
-            Submit Application (Google Form)
-          </button>
+            {/* QR */}
+            <div style={styles.qrBox}>
+              <div style={styles.qrTitle}>Pay Using QR</div>
+              <img
+                src="/srtech-innovations/qr.png"
+                alt="Payment QR"
+                style={styles.qrImg}
+              />
+              <div style={styles.qrSub}>
+                After payment send screenshot on WhatsApp: <b>8287156332</b>
+              </div>
+            </div>
+
+            <button type="submit" style={styles.submitBtn}>
+              Submit Application
+            </button>
+          </form>
         </div>
       </div>
 
@@ -382,18 +400,6 @@ const styles = {
 
   heroCardTitle: { fontWeight: 900, fontSize: "16px" },
   heroCardText: { marginTop: "8px", color: "#475569", lineHeight: 1.6 },
-
-  heroCardBtn: {
-    marginTop: "14px",
-    width: "100%",
-    padding: "12px",
-    borderRadius: "16px",
-    border: "none",
-    background: "#111827",
-    color: "white",
-    fontWeight: 900,
-    cursor: "pointer",
-  },
 
   section: { maxWidth: "1100px", margin: "0 auto", padding: "38px 10px 0" },
   h2: { fontSize: "28px", fontWeight: 900 },
